@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="scripts/index.js" defer></script>
+    <title>Minesweeper</title>
+</head>
+<body>
+    <header id="titleBar">
+        <span id="titleGame" class="titleSelected">Game</span>
+        <span id="titleSavedGames" class="titleDisabled">Saved Games</span>
+        <span id="titleRewatchGame" class="titleDisabled">Rewatch Game</span>
+        <span id="titleLogin" class="titleLeft">Login</span>
+    </header>
+    <!-- <form action="/toPuzzle" method="GET" class="gameForm">
+        <h2>Create Game</h2>
+        <h3>Size</h3>
+        <label for="r9">9</label>
+        <input type="radio" name="size" value="9" id="r9">
+        <label for="r15" class="mobileRemove">15</label>
+        <input class="mobileRemove" type="radio" name="size" value="15" id="r15">
+        <button id="startButton" type="submit">Start Game</button>
+    </form> -->
+    <div class="gameForm">
+        <h2>Create Game</h2>
+        <h3>Size</h3>
+        <label for="r9">9</label>
+        <input type="radio" name="size" value="9" id="r9">
+        <label for="r15" class="mobileRemove">15</label>
+        <input class="mobileRemove" type="radio" name="size" value="15" id="r15">
+        <a href="/game.html" id="startButton"><button>Start Game</button></a>
+    </div>
+</body>
+</html>

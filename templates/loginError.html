@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Minesweeper</title>
+</head>
+<body>
+    <header id="titleBar">
+        <span id="titleGame">Game</span>
+        <span id="titleSavedGames" class="titleDisabled">Saved Games</span>
+        <span id="titleRewatchGame" class="titleDisabled">Rewatch Game</span>
+        <span id="titleLogin" class="titleLeft titleSelected">Login</span>
+    </header>
+    <form method="POST" class="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" placeholder="username">
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" placeholder="password">
+        <button type="submit" formaction="/login">Login</button>
+        <button type="submit" formaction="/users">Register</button>
+    </form>
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <p class="flashes">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+{% block body %}{% endblock %}
+</body>
+</html>

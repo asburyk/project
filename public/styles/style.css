@@ -1,0 +1,128 @@
+:root {
+    --red-color: rgb(128, 0, 0);
+    --selected-color: rgb(255, 170, 170);
+    --disabled-color: rgb(160, 160, 160);
+    --bg-color: rgb(206,233,247);
+    --cellsize: 45px;
+}
+
+@media (max-width: 875px) {
+    .mobileRemove {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --cellsize: 30px;
+    }
+}
+
+#titleBar {
+    height:60px;
+    line-height:60px;
+    background-color:var(--red-color);
+    font-size:22px;
+    display: grid;
+    grid-template-columns:repeat(auto, 7);
+    justify-content: space-around;
+    gap: 0px 30px;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    #titleBar {
+        font-size:16px;
+        grid-template-columns: repeat(auto, 6);
+        gap: 0px 20px;
+    }
+}
+
+@media (max-width: 450px) {
+    #titleBar {
+        font-size: 10px;
+    }
+}
+
+.titleLeft {
+    text-align: right;
+    grid-column: 4 / 8;
+}
+
+.titleSelected {
+    color: var(--selected-color);
+}
+
+.titleDisabled {
+    color: var(--disabled-color);
+}
+
+body {
+    background-color: var(--bg-color);
+}
+
+.gameForm {
+    text-align: center;
+}
+
+.flashes {
+    color: red;
+}
+
+#reactRoot {
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    height: calc(100cqh - 60px);
+}
+
+.gamegrid {
+    display: grid;
+    border: 5px solid black;
+}
+
+.notRevealed, .revealed {
+    width: var(--cellsize);
+    height: var(--cellsize);
+    border: 1px solid rgb(100,100,100);
+}
+
+.hidden {
+    display: none;
+}
+
+.notRevealed {
+    /* background-color: rgb(217,217,217); */
+    background-color: rgb(128,128,128);
+}
+
+.revealed {
+    /* background-color: rgb(128,128,128); */
+    background-color: rgb(217,217,217);
+}
+
+.trippedMine {
+    background-color: rgb(255, 0, 0);
+}
+
+.flagged {
+    color: rgb(255, 0, 0);
+}
+
+.cellDiv {
+    text-align: center;
+    font-size: 42px;
+}
+
+@media (max-width: 600px) {
+    .cellDiv {
+        font-size: 28px;
+    }
+}
+
+body {
+    height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    color:black;
+}
