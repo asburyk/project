@@ -14,7 +14,7 @@ import {createBoard, clickTile, flagTile, createBoardWithPlacement} from "./boar
 let createUIBoard = function(size) {
     let grid = []
     for (let i = 0; i < size * size; i++) {
-        grid.push(React.createElement("div", {id: `x${i % size}y${Math.floor(i / size)}`,className: "cellDiv notRevealed", onClick: function() {clickTile(Math.floor(i % size), Math.floor(i / size))}, onAuxClick: function(e) {flagTile(i % size, Math.floor(i / size)); e.preventDefault()}, onContextMenu: function(e) {e.preventDefault()}}));
+        grid.push(React.createElement("div", {id: `x${i % size}y${Math.floor(i / size)}`,className: "cellDiv notRevealed", onClick: function() {clickTile(Math.floor(i % size), Math.floor(i / size), true)}, onAuxClick: function(e) {flagTile(i % size, Math.floor(i / size), true); e.preventDefault()}, onContextMenu: function(e) {e.preventDefault()}}));
     }
     let container = React.createElement("div", {className: "gamegrid", style: {width: `calc(${size} * var(--cellsize))`, height:`calc(${size} * var(--cellsize))`, gridTemplateColumns: `repeat(${size}, var(--cellsize))`, gridTemplateRows: `repeat(${size}, var(--cellsize))`}}, grid.map(v => v)); // figured out how to do inline style with https://www.pluralsight.com/resources/blog/guides/inline-styling-with-react, I'm not sure if there is a better way to do this
 
@@ -23,13 +23,23 @@ let createUIBoard = function(size) {
     return container;
 }
 
-let createUIBoardWithPlacement = function(size, placement) {
+function Board(props) {
     let grid = []
-    for (let i = 0; i < size * size; i++) {
-        grid.push(React.createElement("div", {id: `x${i % size}y${Math.floor(i / size)}`,className: "cellDiv notRevealed", onClick: function() {clickTile(Math.floor(i % size), Math.floor(i / size))}, onAuxClick: function(e) {flagTile(i % size, Math.floor(i / size)); e.preventDefault()}, onContextMenu: function(e) {e.preventDefault()}}));
+    for (let i = 0; i < props.size * props.size; i++) {
+        grid.push(React.createElement("div", {id: `x${i % props.size}y${Math.floor(i / props.size)}`,className: "cellDiv notRevealed click", onClick: function() {clickTile(Math.floor(i % props.size), Math.floor(i / props.size), true)}, onAuxClick: function(e) {flagTile(i % props.size, Math.floor(i / props.size), true); e.preventDefault()}, onContextMenu: function(e) {e.preventDefault()}}));
     }
-    let container = React.createElement("div", {className: "gamegrid", style: {width: `calc(${size} * var(--cellsize))`, height:`calc(${size} * var(--cellsize))`, gridTemplateColumns: `repeat(${size}, var(--cellsize))`, gridTemplateRows: `repeat(${size}, var(--cellsize))`}}, grid.map(v => v)); // figured out how to do inline style with https://www.pluralsight.com/resources/blog/guides/inline-styling-with-react, I'm not sure if there is a better way to do this
-    createBoardWithPlacement(size, placement);
+    let container = React.createElement("div", {className: "gamegrid", style: {width: `calc(${props.size} * var(--cellsize))`, height:`calc(${props.size} * var(--cellsize))`, gridTemplateColumns: `repeat(${props.size}, var(--cellsize))`, gridTemplateRows: `repeat(${props.size}, var(--cellsize))`}}, grid.map(v => v)); // figured out how to do inline style with https://www.pluralsight.com/resources/blog/guides/inline-styling-with-react, I'm not sure if there is a better way to do this
+    createBoardWithPlacement(props.size, props.placement);
+    React.useEffect(function () { // these were helpful: https://legacy.reactjs.org/docs/components-and-props.html https://stackoverflow.com/questions/50497599/incorrect-casing-error-with-dynamically-rendered-component-in-react https://react.dev/reference/react/useEffect
+        let moves = JSON.parse(sessionStorage.getItem("currentMoves"));
+        for(let i = 0; i < moves.length; i++) {
+            if (moves[i]["type"] == "reveal") {
+                clickTile(moves[i]["x"], moves[i]["y"], false);
+            } else {
+                flagTile(moves[i]["x"], moves[i]["y"], false);
+            }
+        }
+    }, []);
     return container;
 }
 
@@ -46,19 +56,9 @@ let createUIBoardWithPlacement = function(size, placement) {
 window.addEventListener("load", async function () {
     let root = ReactDOM.createRoot(document.getElementById("reactRoot"));
     if (sessionStorage.getItem("currentSize") > 0) {
-        root.render(createUIBoardWithPlacement(sessionStorage.getItem("currentSize"), JSON.parse(sessionStorage.getItem("currentMines"))));
-        await new Promise(r => setTimeout(r, 10)); // I can't find a better way to get the code to run in order
-                                                   // I do not like the fact that I am struggling to find how to make code run in order
-        let moves = JSON.parse(sessionStorage.getItem("currentMoves"));
-        for(let i = 0; i < moves.length; i++) {
-            if (moves[i]["type"] == "reveal") {
-                clickTile(moves[i]["x"], moves[i]["y"]);
-            } else {
-                flagTile(moves[i]["x"], moves[i]["y"]);
-            }
-        }
+        root.render(React.createElement(Board, {size: sessionStorage.getItem("currentSize"), placement:JSON.parse(sessionStorage.getItem("currentMines"))}));
     } else {
-        root.render(createUIBoard(9));
+        window.location = "/index.html";
     }
 });
 

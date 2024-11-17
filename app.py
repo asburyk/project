@@ -21,12 +21,12 @@ def shutdown():
     print("Shutting down the server")
     os._exit(0)
 
-@app.get("/toPuzzle")
-def toPuzzle():
-    size=request.args.get('size', default = -1, type = int)
-    if (size != 9 and size != 15):
-        return -1 #idk
-    return flask.render_template("/game.html", size = size)
+# @app.get("/toPuzzle")
+# def toPuzzle():
+#     size=request.args.get('size', default = -1, type = int)
+#     if (size != 9 and size != 15):
+#         return -1 #idk
+#     return flask.render_template("/game.html", size = size)
     
 
 @app.get("/puzzle")
@@ -82,6 +82,10 @@ def addUser():
 
     db.ladd(db_name, data)
     return redirect("/index.html")
+
+@app.get("/users/<user>/puzzles")
+def getPuzzles(user):
+    return 0
 
 @app.get("/users/<user>/puzzles?id=<id>")
 def getPuzzle(user, id):

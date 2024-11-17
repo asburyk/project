@@ -126,3 +126,7 @@ body {
     padding: 0px;
     color:black;
 }
+
+.click {
+    cursor:pointer; /*https://developer.mozilla.org/en-US/docs/Web/CSS/cursor*/
+}

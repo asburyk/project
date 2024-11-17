@@ -105,16 +105,18 @@ function cordsValid(xIn, yIn){
     //console.log("cord("+xIn+","+yIn+") is valid")
     return true
 }
-function clickTile(xIn, yIn){
+function clickTile(xIn, yIn, appending){
     if (!acceptInput)
         return;
     if(flagging){
         //TODO: insert code for flagging a tile
     }
     else{
-        let moves = JSON.parse(sessionStorage.getItem("currentMoves"));
-        moves.push({"type": "reveal", "x": xIn, "y": yIn});
-        sessionStorage.setItem("currentMoves", JSON.stringify(moves));
+        if (appending) {
+            let moves = JSON.parse(sessionStorage.getItem("currentMoves"));
+            moves.push({"type": "reveal", "x": xIn, "y": yIn});
+            sessionStorage.setItem("currentMoves", JSON.stringify(moves));
+        }
         if(mineShield>0){
             if(!cordsValid(xIn,yIn)) return
 
@@ -201,15 +203,16 @@ function checkTile(xIn,yIn){
     }
     //console.log("text of cord("+xIn+","+yIn+"): "+tile["tileText"])
 }
-function flagTile(xIn,yIn){
+function flagTile(xIn,yIn, appending){
     if (!cordsValid(xIn,yIn)) return
     if (!acceptInput) return;
     let tile=(board[yIn])[xIn]
     if(tile["checked"]==true) return //return if tile already checked
-    
-    let moves = JSON.parse(sessionStorage.getItem("currentMoves"));
-    moves.push({"type": "flag", "x": xIn, "y": yIn});
-    sessionStorage.setItem("currentMoves", JSON.stringify(moves));
+    if (appending) {
+        let moves = JSON.parse(sessionStorage.getItem("currentMoves"));
+        moves.push({"type": "flag", "x": xIn, "y": yIn});
+        sessionStorage.setItem("currentMoves", JSON.stringify(moves));
+    }
 
     if(tile["flagged"]) {
         tile["flagged"] = false;
@@ -309,7 +312,7 @@ function changeTileText(xIn,yIn,textIn){
     //TODO: change the ui element of the tile based on tileText
     if(textIn=="?"){ //"?" = unrevealed tile
         uiElement.textContent=""
-        uiElement.className="cellDiv notRevealed"
+        uiElement.className="cellDiv notRevealed click"
     }
     else if(textIn==" "){ //" " = revealed tile
         uiElement.textContent=""
@@ -325,7 +328,7 @@ function changeTileText(xIn,yIn,textIn){
     }
     else if(textIn=="f"){ //"f" = flagged
         uiElement.textContent="F"
-        uiElement.className="cellDiv notRevealed flagged"
+        uiElement.className="cellDiv notRevealed flagged click"
     }
     else if(!isNaN(parseInt(textIn))){ //"*number*" = tile near mine
         uiElement.textContent=textIn
@@ -360,26 +363,31 @@ function checkWin(){
 }
 
 function win(){
-    console.log("YOU WIN!!!11!!11!");
+    sessionStorage.removeItem("currentMoves");
+    sessionStorage.removeItem("currentSize");
+    sessionStorage.removeItem("currentMines");
     acceptInput = false;
     for (let r =0; r < heightB; r++){
         for (let c =0; c < widthB; c++){
             if(isTileMined(c,r)){
                 changeTileText(c,r,"f")
             }
+            document.getElementById("x"+c+"y"+r).classList.remove("click");
         }
     }
 }
 
 function lose(){
-    console.log("YOU LOOOOSE. YOU SUCK. YOU ARE WORTHLESS. YOUR LIFE MEANS NOTHING.")
-    console.log("You should kill yourself NOW.")
+    sessionStorage.removeItem("currentMoves");
+    sessionStorage.removeItem("currentSize");
+    sessionStorage.removeItem("currentMines");
     acceptInput = false;
     for (let r =0; r < heightB; r++){
         for (let c =0; c < widthB; c++){
             if(isTileMined(c,r)){
                 changeTileText(c,r,"m")
             }
+            document.getElementById("x"+c+"y"+r).classList.remove("click");
         }
     }
 }
