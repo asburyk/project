@@ -57,7 +57,7 @@ def login():
     while (i < db.llen(db_name)):
         if (db.lget(db_name, i)["username"] == data["username"]):
             if (db.lget(db_name, i)["password"] == data["password"]):
-                return redirect("/index.html")
+                return flask.render_template("/loginSuccess.html", username = data["username"], password = data["password"]);
             else:
                 flash("Invalid username/password")
                 flask.render_template("/loginError.html")
@@ -77,11 +77,15 @@ def addUser():
             flash("Username already exists")
             return flask.render_template("/loginError.html") # this and loginError template part from https://flask.palletsprojects.com/en/stable/patterns/flashing/
         i += 1
-    
+    # check nonempty
+    if (data["username"] == "" or data["password"] == ""):
+        flash("Invalid username/password")
+        return flask.render_template("/loginError.html") # this and loginError template part from https://flask.palletsprojects.com/en/stable/patterns/flashing/
     
 
     db.ladd(db_name, data)
-    return redirect("/index.html")
+    return flask.render_template("/loginSuccess.html", username = data["username"], password = data["password"]);
+    #return redirect("/index.html")
 
 @app.get("/users/<user>/puzzles")
 def getPuzzles(user):
