@@ -57,6 +57,12 @@ window.addEventListener("load", async function () {
     let root = ReactDOM.createRoot(document.getElementById("reactRoot"));
     if (sessionStorage.getItem("currentSize") > 0) {
         root.render(React.createElement(Board, {size: sessionStorage.getItem("currentSize"), placement:JSON.parse(sessionStorage.getItem("currentMines"))}));
+        document.getElementById("newGame").addEventListener("click", function() {
+            sessionStorage.removeItem("currentMoves");
+            sessionStorage.removeItem("currentSize");
+            sessionStorage.removeItem("currentMines");
+            document.location = "/index.html";
+        });
     } else {
         window.location = "/index.html";
     }

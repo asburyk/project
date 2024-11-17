@@ -130,3 +130,132 @@ body {
 .click {
     cursor:pointer; /*https://developer.mozilla.org/en-US/docs/Web/CSS/cursor*/
 }
+
+.gameButtonDiv {
+    z-index: 100;
+    position: relative;
+    right: 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    justify-content: center;
+    height:calc(100cqh - 60px);
+    width:min-content;
+    float: right;
+}
+
+.gameButton {
+    height: 50px;
+    width: 100px;
+    background-color: orange;
+}
+
+@media (max-width: 600px) {
+    .gameButtonDiv {
+        flex-direction: row;
+        height: 0%;
+        width: 100%;
+        float:none;
+        top:15%;
+        right: 0%;
+    }
+}
+
+@media (max-height: 700px) {
+    .gameButtonDiv {
+        top: 10%;
+    }
+}
+
+/** This CSS code was from https://www.w3schools.com/howto/howto_css_switch.asp to make the flag slider**/
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  /**---------------------------------------------------------------------------------------------------------**/
+
+  .flagger {
+    display: flex;
+    justify-content: center;
+    float: left;
+    height:calc(100cqh - 60px);
+    flex-direction: column;
+    position: relative;
+    left: 5%;
+    gap: 5px;
+  }
+
+  @media (max-width: 600px) {
+    .flagger {
+        flex-direction: row;
+        height: 0%;
+        width: 100%;
+        float:none;
+        top:75%;
+        left: 0%;
+    }
+}
+
+.loginRequire {
+    display: none;
+}

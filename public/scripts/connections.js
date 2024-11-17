@@ -30,6 +30,10 @@
         } else {
             loginText.textContent = localStorage.getItem("user");
         }
+        let saveGame = document.getElementById("saveGame");
+        if (saveGame != null) {
+            saveGame.classList.remove("loginRequire");
+        }
     } else {
         savedGames.classList.add("titleDisabled");
         rewatch.classList.add("titleDisabled");

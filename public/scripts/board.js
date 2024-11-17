@@ -109,7 +109,7 @@ function clickTile(xIn, yIn, appending){
     if (!acceptInput)
         return;
     if(flagging){
-        //TODO: insert code for flagging a tile
+        flagTile(xIn, yIn, appending);
     }
     else{
         if (appending) {
@@ -375,6 +375,7 @@ function win(){
             document.getElementById("x"+c+"y"+r).classList.remove("click");
         }
     }
+    document.getElementById("saveGame".classList.remove("hidden"));
 }
 
 function lose(){
@@ -400,6 +401,12 @@ function lose(){
 // setTileMined(5,1)
 // setTileMined(6,3)
 
+window.addEventListener("load", function() {
+    let flagtool = document.getElementById("flagging");
+    flagtool.addEventListener("change", function() {
+        flagging = flagtool.checked;
+    })
+})
 
 export {createBoard, createBoardWithPlacement, clickTile, flagTile}
 
