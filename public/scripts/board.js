@@ -9,6 +9,10 @@ let mineShield=0
 
 let acceptInput = true;
 
+function revealBoard() {
+    return board;
+}
+
 function createBoard(widthIn, heightIn, mineChanceIn=0.1, mineShieldIn=1){
     widthB=widthIn
     heightB=heightIn
@@ -363,6 +367,9 @@ function checkWin(){
 }
 
 function win(){
+    sessionStorage.setItem("size", sessionStorage.getItem("currentSize"));
+    sessionStorage.setItem("mines", sessionStorage.getItem("currentMines"));
+    sessionStorage.setItem("moves", sessionStorage.getItem("currentMoves"));
     sessionStorage.removeItem("currentMoves");
     sessionStorage.removeItem("currentSize");
     sessionStorage.removeItem("currentMines");
@@ -375,7 +382,7 @@ function win(){
             document.getElementById("x"+c+"y"+r).classList.remove("click");
         }
     }
-    document.getElementById("saveGame".classList.remove("hidden"));
+    document.getElementById("saveGame").classList.remove("hidden");
 }
 
 function lose(){
@@ -406,7 +413,8 @@ window.addEventListener("load", function() {
     flagtool.addEventListener("change", function() {
         flagging = flagtool.checked;
     })
+    window.revealBoard = revealBoard;
 })
 
-export {createBoard, createBoardWithPlacement, clickTile, flagTile}
+export {createBoard, createBoardWithPlacement, clickTile, flagTile, revealBoard}
 

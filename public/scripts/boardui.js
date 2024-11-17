@@ -63,6 +63,27 @@ window.addEventListener("load", async function () {
             sessionStorage.removeItem("currentMines");
             document.location = "/index.html";
         });
+        document.getElementById("saveGame").addEventListener("click", async function() {
+            let obj = {};
+            obj["username"] = localStorage.getItem("user");
+            obj["password"] = localStorage.getItem("pass");
+            obj["currentSize"] = sessionStorage.getItem("size");
+            obj["currentMines"] = sessionStorage.getItem("mines");
+            obj["currentMoves"] = sessionStorage.getItem("moves");
+            let response = await fetch(`/users/${obj["username"]}/puzzle`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body:JSON.stringify(obj)
+            })
+            let message = await response.json()
+            if (message["success"] == 0) {
+                alert("Save unsuccessful");
+            } else {
+                alert("Save successful");
+            }
+        })
     } else {
         window.location = "/index.html";
     }

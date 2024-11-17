@@ -259,3 +259,18 @@ body {
 .loginRequire {
     display: none;
 }
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width:100%;
+    height:calc(100cqh - 60px);
+    gap: 15px;
+}
+
+.loginForm * {
+    width: 30%;
+}
