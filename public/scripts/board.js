@@ -50,7 +50,7 @@ function createBoard(widthIn, heightIn, mineChanceIn=0.1, mineShieldIn=1){
             //Randomly set tile as mine
             let mineRoll=Math.random()
             if(mineRoll < mineChanceIn){
-                console.log("randomly setting tile("+c+","+r+") as mined")
+                ////console.log("randomly setting tile("+c+","+r+") as mined")
                 setTileMined(c,r,true)
                 placement.push({"x": c, "y": r});
             }
@@ -58,7 +58,7 @@ function createBoard(widthIn, heightIn, mineChanceIn=0.1, mineShieldIn=1){
     }
 
     sessionStorage.setItem("currentMines", JSON.stringify(placement));
-    console.log(boardAsString())
+    //console.log(boardAsString())
 }
 
 function createBoardWithPlacement(size, placement, mineShieldIn = 1) {
@@ -89,7 +89,7 @@ function createBoardWithPlacement(size, placement, mineShieldIn = 1) {
     for (let r =0; r < heightB; r++){
         for (let c =0; c < widthB; c++){
             //set tile text
-            //changeTileText(c,r,"?");
+            changeTileText(c,r,"?");
             let tile=(board[r])[c];
             tile["tileText"]="?";
         }
@@ -114,7 +114,10 @@ function clickTile(xIn, yIn, appending){
         return;
     if(flagging){
         flagTile(xIn, yIn, appending);
+        return;
     }
+    let tile=(board[yIn])[xIn]
+    if(tile["checked"]==true) return
     else{
         if (appending) {
             let moves = JSON.parse(sessionStorage.getItem("currentMoves"));
@@ -130,17 +133,17 @@ function clickTile(xIn, yIn, appending){
                 //console.log("mine shield consumed, "+mineShield+" charges remain")
             }
             mineShield-=1
-            console.log("mine shield consumed, "+mineShield+" charges remain")
+            //console.log("mine shield consumed, "+mineShield+" charges remain")
         }
 
         checkTile(xIn,yIn);
-        console.log("\n\ncheckedtile\n\n");
+        //console.log("\n\ncheckedtile\n\n");
     }
-    console.log(boardAsString())
+    //console.log(boardAsString())
     //let tile=(board[yIn])[xIn]
     //console.log("text of cord("+xIn+","+yIn+"): "+tile["tileText"])
 
-    console.log("tiles revealed: "+tilesRevealed+", tiles remaining: "+(widthB*heightB-tilesRevealed-minesPresent))
+    //console.log("tiles revealed: "+tilesRevealed+", tiles remaining: "+(widthB*heightB-tilesRevealed-minesPresent))
     if(checkWin()){
         win()
     }
@@ -152,7 +155,7 @@ function checkTile(xIn,yIn){
     let tile=(board[yIn])[xIn]
     if(tile["checked"]==true) return //return if tile already checked
 
-    console.log("\n\nihfdsigfdsns\n\n");
+    //console.log("\n\nihfdsigfdsns\n\n");
 
     if(!isTileMined(xIn, yIn)) { //if the tile is not mined
         tile["checked"]=true
@@ -309,7 +312,7 @@ function changeTileText(xIn,yIn,textIn){
 
     let uiElement = document.getElementById("x"+xIn+"y"+yIn)
     if(uiElement==null) {
-        console.log("ui element at cord("+xIn+","+yIn+") does not exist")
+        //console.log("ui element at cord("+xIn+","+yIn+") does not exist")
         return
     }
 
@@ -367,6 +370,17 @@ function checkWin(){
 }
 
 function win(){
+    if (document.getElementById("step") != null) {
+        for (let r =0; r < heightB; r++){
+            for (let c =0; c < widthB; c++){
+                if(isTileMined(c,r)){
+                    changeTileText(c,r,"f")
+                }
+                document.getElementById("x"+c+"y"+r).classList.remove("click");
+            }
+        }
+        return;
+    }
     sessionStorage.setItem("size", sessionStorage.getItem("currentSize"));
     sessionStorage.setItem("mines", sessionStorage.getItem("currentMines"));
     sessionStorage.setItem("moves", sessionStorage.getItem("currentMoves"));
@@ -383,9 +397,24 @@ function win(){
         }
     }
     document.getElementById("saveGame").classList.remove("hidden");
+    let gt = document.getElementById("gameText");
+    gt.textContent = "You Win!";
+    gt.classList.add("winText");
+    gt.classList.remove("hidden");
 }
 
 function lose(){
+    if (document.getElementById("step") != null) { // this shouldn't happen because we don't save lost games
+        for (let r =0; r < heightB; r++){
+            for (let c =0; c < widthB; c++){
+                if(isTileMined(c,r)){
+                    changeTileText(c,r,"m")
+                }
+                document.getElementById("x"+c+"y"+r).classList.remove("click");
+            }
+        }
+        return;
+    }
     sessionStorage.removeItem("currentMoves");
     sessionStorage.removeItem("currentSize");
     sessionStorage.removeItem("currentMines");
@@ -398,6 +427,10 @@ function lose(){
             document.getElementById("x"+c+"y"+r).classList.remove("click");
         }
     }
+    let gt = document.getElementById("gameText");
+    gt.textContent = "You Lose!";
+    gt.classList.add("loseText");
+    gt.classList.remove("hidden");
 }
 
 //console.log("Starting Test")
@@ -410,9 +443,12 @@ function lose(){
 
 window.addEventListener("load", function() {
     let flagtool = document.getElementById("flagging");
-    flagtool.addEventListener("change", function() {
-        flagging = flagtool.checked;
-    })
+    if (flagtool != null) {
+        flagtool.addEventListener("change", function() {
+            flagging = flagtool.checked;
+            //console.log(flagging);
+        })
+    }
     window.revealBoard = revealBoard;
 })
 

@@ -34,6 +34,15 @@
         if (saveGame != null) {
             saveGame.classList.remove("loginRequire");
         }
+        loginText.addEventListener("click", function() {
+            document.getElementById("logout").classList.toggle("hidden");
+        });
+        document.getElementById("logout").addEventListener("click", function() {
+            sessionStorage.setItem("loggedIn", 0);
+            localStorage.clear();
+            document.location = "/login.html"
+        })
+        loginText.classList.add("click");
     } else {
         savedGames.classList.add("titleDisabled");
         rewatch.classList.add("titleDisabled");

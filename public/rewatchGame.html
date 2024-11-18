@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/style.css">
     <script src="scripts/connections.js" defer></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script> <!--From chatper 30 in zybooks-->
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="scripts/board.js" defer type="module"></script>
+    <script src="scripts/replay.js" defer type="module"></script>
     <title>Minesweeper</title>
 </head>
 <body>
@@ -14,5 +18,24 @@
         <span id="titleRewatchGame" class="titleDisabled titleSelected">Rewatch Game</span>
         <span id="titleLogin" class="titleLeft">Login</span>
     </header>
+
+    <div class="gameButtonDiv">
+        <button class="gameButton click ctrl" id="toStart"><p>&lt;|</p></button>
+        <button class="gameButton click ctrl" id="stepBack"><p>&lt;</p></button>
+        <button class="gameButton click ctrl" id="step"><p>&gt;</p></button>
+        <button class="gameButton click ctrl" id="toEnd"><p>&gt;|</p></button>
+    </div>
+
+    <div id="reactRoot"></div>
+
+    <!-- <button onclick="doNextMove()">Next Move</button> -->
+
+
+
+
+
+
+
+    <button id="logout" class="hidden">Log Out</button>
 </body>
 </html>

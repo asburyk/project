@@ -89,13 +89,55 @@ def addUser():
     return flask.render_template("/loginSuccess.html", username = data["username"], password = data["password"]);
     #return redirect("/index.html")
 
-@app.get("/users/<user>/puzzles")
+@app.post("/users/<user>/puzzles")
 def getPuzzles(user):
-    return 0
+    data = flask.request.json
+    i = 0
+    while (i < db.llen(db_name)):
+        if (db.lget(db_name, i)["username"] == data["username"]):
+            if (db.lget(db_name, i)["password"] == data["password"]):
+                break
+            else:
+                return flask.Response(response=json.dumps({"success": False}), status=200, headers = {"Content-Type": "application/json"})
+        i += 1
+    if (i >= db.llen(db_name)):
+        return flask.Response(response=json.dumps({"success": False}), status=200, headers = {"Content-Type": "application/json"})
+    userinfo = db.lget(db_name, i)
+    returnData = {"success": True}
+    if (not userinfo.keys().__contains__("saved_games")):
+        userinfo["saved_games"] = []
+    returnData["games"] = userinfo["saved_games"]
+    return flask.Response(response=json.dumps(returnData), status=200, headers = {"Content-Type": "application/json"})
 
-@app.get("/users/<user>/puzzles?id=<id>")
-def getPuzzle(user, id):
-    return 0
+@app.post("/users/<user>/puzzleId")
+def getPuzzle(user):
+    data = flask.request.json
+    i = 0
+    while (i < db.llen(db_name)):
+        if (db.lget(db_name, i)["username"] == data["username"]):
+            if (db.lget(db_name, i)["password"] == data["password"]):
+                break
+            else:
+                print("here")
+                return flask.Response(response=json.dumps({"success": False}), status=200, headers = {"Content-Type": "application/json"})
+        i += 1
+    if (i >= db.llen(db_name)):
+        print("here2")
+        return flask.Response(response=json.dumps({"success": False}), status=200, headers = {"Content-Type": "application/json"})
+    userinfo = db.lget(db_name, i)
+    returnData = {"success": True}
+    if (not userinfo.keys().__contains__("saved_games")):
+        userinfo["saved_games"] = []
+    i = 0
+    while (i < len(userinfo["saved_games"])):
+        if (userinfo["saved_games"][i]["id"] == data["id"]):
+            returnData["rewatchSize"] = userinfo["saved_games"][i]["size"]
+            returnData["rewatchMines"] = userinfo["saved_games"][i]["init"]
+            returnData["rewatchMoves"] = userinfo["saved_games"][i]["moves"]
+            return flask.Response(response=json.dumps(returnData), status=200, headers = {"Content-Type": "application/json"})
+        i += 1
+    print("here3")
+    return flask.Response(response=json.dumps({"success": False}), status=200, headers = {"Content-Type": "application/json"})
 
 @app.post("/users/<user>/puzzle")
 def postPuzzle(user):

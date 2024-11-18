@@ -11,7 +11,7 @@ import {createBoard, clickTile, flagTile, createBoardWithPlacement} from "./boar
 //     return React.createElement("div", {className: "notRevealed hidden"}, React.createElement("p", {className: "flag"}, "F"));
 // }
 
-let createUIBoard = function(size) {
+let createUIBoard = function(size, mineChanceIn=0.05) {
     let grid = []
     for (let i = 0; i < size * size; i++) {
         grid.push(React.createElement("div", {id: `x${i % size}y${Math.floor(i / size)}`,className: "cellDiv notRevealed", onClick: function() {clickTile(Math.floor(i % size), Math.floor(i / size), true)}, onAuxClick: function(e) {flagTile(i % size, Math.floor(i / size), true); e.preventDefault()}, onContextMenu: function(e) {e.preventDefault()}}));
@@ -19,7 +19,7 @@ let createUIBoard = function(size) {
     let container = React.createElement("div", {className: "gamegrid", style: {width: `calc(${size} * var(--cellsize))`, height:`calc(${size} * var(--cellsize))`, gridTemplateColumns: `repeat(${size}, var(--cellsize))`, gridTemplateRows: `repeat(${size}, var(--cellsize))`}}, grid.map(v => v)); // figured out how to do inline style with https://www.pluralsight.com/resources/blog/guides/inline-styling-with-react, I'm not sure if there is a better way to do this
 
 
-    createBoard(size, size, 0.05, 0);
+    createBoard(size, size, mineChanceIn, 0);
     return container;
 }
 
@@ -55,6 +55,7 @@ function Board(props) {
 
 window.addEventListener("load", async function () {
     let root = ReactDOM.createRoot(document.getElementById("reactRoot"));
+    let saved = false;
     if (sessionStorage.getItem("currentSize") > 0) {
         root.render(React.createElement(Board, {size: sessionStorage.getItem("currentSize"), placement:JSON.parse(sessionStorage.getItem("currentMines"))}));
         document.getElementById("newGame").addEventListener("click", function() {
@@ -64,6 +65,9 @@ window.addEventListener("load", async function () {
             document.location = "/index.html";
         });
         document.getElementById("saveGame").addEventListener("click", async function() {
+            if (saved) {
+                return;
+            }
             let obj = {};
             obj["username"] = localStorage.getItem("user");
             obj["password"] = localStorage.getItem("pass");
@@ -82,6 +86,7 @@ window.addEventListener("load", async function () {
                 alert("Save unsuccessful");
             } else {
                 alert("Save successful");
+                saved = true;
             }
         })
     } else {

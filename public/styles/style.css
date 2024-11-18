@@ -274,3 +274,73 @@ body {
 .loginForm * {
     width: 30%;
 }
+
+.savedGamesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    position: relative;
+    top: 15px;
+}
+
+.pastgame {
+    display: flex;
+    border: 1px solid black;
+    width: 70vw;
+    height: 50px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background-color: white;
+    font-size: 100%;
+}
+
+@media (max-width: 650px) {
+    .pastgame {
+        font-size: 80%;
+    }
+}
+
+@media (max-width: 425px) {
+    .pastgame {
+        font-size: 65%;
+    }
+}
+
+.loseText, .winText {
+    text-align: center;
+}
+
+.loseText {
+    color: red;
+}
+
+.winText {
+    color: green;
+}
+
+.gamesh1 {
+    text-align: center;
+}
+
+#logout {
+    position:fixed;
+    top: 65px;
+    right: 5px;
+    height: 30px;
+    width: 15vw;
+    z-index: 100000;
+}
+
+@media (max-width: 425px) {
+    #logout {
+        width: 20vw;
+    }
+}
+
+.ctrl {
+    background-color: lightblue;
+    width: 50px;
+    height: 50px;
+}
