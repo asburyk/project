@@ -17,18 +17,11 @@ if not db.get(db_name):
 
 app = flask.Flask(__name__, static_url_path="", static_folder="public")
 app.secret_key='fdshgsi'
-
-@app.get("/shutdown")
-def shutdown():
-    print("Shutting down the server")
-    os._exit(0)
-
-# @app.get("/toPuzzle")
-# def toPuzzle():
-#     size=request.args.get('size', default = -1, type = int)
-#     if (size != 9 and size != 15):
-#         return -1 #idk
-#     return flask.render_template("/game.html", size = size)
+# Not in deployment
+# @app.get("/shutdown")
+# def shutdown():
+#     print("Shutting down the server")
+#     os._exit(0)
     
 
 @app.get("/puzzle")
@@ -87,7 +80,6 @@ def addUser():
 
     db.ladd(db_name, data)
     return flask.render_template("/loginSuccess.html", username = data["username"], password = data["password"]);
-    #return redirect("/index.html")
 
 @app.post("/users/<user>/puzzles")
 def getPuzzles(user):

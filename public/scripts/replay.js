@@ -1,4 +1,4 @@
-import {createBoard, clickTile, flagTile, createBoardWithPlacement} from "./board.js";
+import {clickTile, flagTile, createBoardWithPlacement} from "./board.js";
 
 
 let moves=[]
@@ -38,7 +38,7 @@ async function recreateBoard(usernameIn, passwordIn, gameIDIn){
     //Recreate the board
     let grid = []
     for (let i = 0; i < size * size; i++) {
-        grid.push(React.createElement("div", {id: `x${i % size}y${Math.floor(i / size)}`,className: "cellDiv notRevealed"/*, onClick: function() {clickTile(Math.floor(i % size), Math.floor(i / size), true)}, onAuxClick: function(e) {flagTile(i % size, Math.floor(i / size), true); e.preventDefault()}*/, onContextMenu: function(e) {e.preventDefault()}}));
+        grid.push(React.createElement("div", {id: `x${i % size}y${Math.floor(i / size)}`,className: "cellDiv notRevealed", onContextMenu: function(e) {e.preventDefault()}}));
     }
     let container = React.createElement("div", {className: "gamegrid", style: {width: `calc(${size} * var(--cellsize))`, height:`calc(${size} * var(--cellsize))`, gridTemplateColumns: `repeat(${size}, var(--cellsize))`, gridTemplateRows: `repeat(${size}, var(--cellsize))`}}, grid.map(v => v));
 
@@ -47,9 +47,6 @@ async function recreateBoard(usernameIn, passwordIn, gameIDIn){
 }
 
 function goStart() {
-    // let root = ReactDOM.createRoot(document.getElementById("reactRoot"));
-    // let e = await recreateBoard(localStorage.getItem("user"),localStorage.getItem("pass"),JSON.parse(sessionStorage.getItem("rewatchId")));
-    // root.render(e);
     createBoardWithPlacement(JSON.parse(sessionStorage.getItem("rewatchSize")), JSON.parse(sessionStorage.getItem("rewatchMines")), 1);
     curMove = 0;
 }
