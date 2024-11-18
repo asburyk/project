@@ -1,4 +1,10 @@
 function PastGame(props) {
+    if (props.size > 9) {
+        return React.createElement("div", {className: "pastgame click mobileRemove", onClick: function(e) {sessionStorage.setItem("rewatchId", props.id); document.location = "/rewatchGame.html"}}, 
+        React.createElement("span", {className: "gameSize"}, "Game Size: " + props.size),
+        React.createElement("span", {className: "gameTS"}, "Time finished: " + props.timestamp)
+    )
+    }
     return React.createElement("div", {className: "pastgame click", onClick: function(e) {sessionStorage.setItem("rewatchId", props.id); document.location = "/rewatchGame.html"}}, 
         React.createElement("span", {className: "gameSize"}, "Game Size: " + props.size),
         React.createElement("span", {className: "gameTS"}, "Time finished: " + props.timestamp)

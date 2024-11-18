@@ -6,11 +6,7 @@
     --cellsize: 45px;
 }
 
-@media (max-width: 875px) {
-    .mobileRemove {
-        display: none;
-    }
-}
+
 
 @media (max-width: 600px) {
     :root {
@@ -343,4 +339,10 @@ body {
     background-color: lightblue;
     width: 50px;
     height: 50px;
+}
+
+@media (max-width: 875px) {
+    .mobileRemove {
+        display: none;
+    }
 }
