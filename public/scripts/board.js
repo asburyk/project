@@ -9,10 +9,6 @@ let mineShield=0
 
 let acceptInput = true;
 
-function revealBoard() { // TODO: remove this after done with youtube video
-    return board;
-}
-
 function createBoardWithPlacement(size, placement, mineShieldIn = 1) {
     widthB=size
     heightB=size
@@ -98,14 +94,13 @@ function checkTile(xIn,yIn){
         tilesRevealed+=1
         let mineCount=minesNearTile(xIn,yIn)
         if(mineCount==0){
-            changeTileText(xIn,yIn," ") //tile["tileText"]=" "
+            changeTileText(xIn,yIn," ")
 
             //Perform a propogating check on neighboring tiles
             for (let r of [-1,0,1]){
                 for (let c of [-1,0,1]){
                     let x=parseInt(xIn)+parseInt(c)
                     let y=parseInt(yIn)+parseInt(r)
-                    //console.log("preparing propogating check on cord("+x+","+y+")")
                     if(!(r==0 && c==0) && cordsValid(x,y)){
                         propogatingCheckTile(x,y)
                     }
@@ -113,7 +108,7 @@ function checkTile(xIn,yIn){
             }
         }
         else{
-            changeTileText(xIn,yIn,mineCount)//tile["tileText"]=mineCount
+            changeTileText(xIn,yIn,mineCount)
             tile["checked"]=true
         }
     }
@@ -302,7 +297,6 @@ window.addEventListener("load", function() {
             flagging = flagtool.checked;
         })
     }
-    window.revealBoard = revealBoard; // TODO: Keep this in for youtube video, remove after done
 })
 
 export {createBoardWithPlacement, clickTile, flagTile, revealBoard}

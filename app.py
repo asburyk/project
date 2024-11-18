@@ -164,5 +164,5 @@ def postPuzzle(user):
     return flask.Response(response=json.dumps({"success": True}), status=200, headers = {"Content-Type": "application/json"})
     
 
-app.run(host='0.0.0.0', port=22009,debug=True)
+app.run(host='0.0.0.0', port=22009)
 
