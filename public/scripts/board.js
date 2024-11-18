@@ -299,5 +299,5 @@ window.addEventListener("load", function() {
     }
 })
 
-export {createBoardWithPlacement, clickTile, flagTile, revealBoard}
+export {createBoardWithPlacement, clickTile, flagTile}
 
